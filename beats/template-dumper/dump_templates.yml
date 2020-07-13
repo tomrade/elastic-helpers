@@ -1,0 +1,22 @@
+version: '3'
+services:
+  dump_filebeat_template:
+    image: docker.elastic.co/beats/filebeat:7.8.0
+    container_name: dump_filebeat
+    command: ['/bin/bash', '-c', 'filebeat export template > /templates/filebeat.template.json 2>&1']
+    volumes: ['./templates:/templates']
+    user: root
+  dump_auditbeat_template:
+    image: docker.elastic.co/beats/auditbeat:7.8.0
+    container_name: dump_auditbeat
+    command: ['/bin/bash', '-c', 'auditbeat export template > /templates/auditbeat.template.json 2>&1']
+    volumes: ['./templates:/templates']
+    user: root
+  dump_packetbeat_template:
+    image: docker.elastic.co/beats/packetbeat:7.8.0
+    cap_add:
+        - NET_ADMIN
+    container_name: dump_packetbeat
+    command: ['/bin/bash', '-c', 'packetbeat export template > /templates/packetbeat.template.json 2>&1']
+    volumes: ['./templates:/templates']
+    user: root
